@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DemoApplication.Pages.ProfilePage">
+    <ContentPage.Content>
+        <StackLayout>
+			<Frame CornerRadius="100" 
+			   HeightRequest="200"
+			   WidthRequest="200"
+			   HorizontalOptions="Center"
+			   Padding="0"
+			   IsClippedToBounds="True">
+				<Image x:Name="accountImage" 
+					Aspect="Fill"
+					HeightRequest="300" 
+					HorizontalOptions="Center"
+					VerticalOptions="Center" 
+					Source="profile_image_default.png"
+				/>
+				<!--<ActivityIndicator BindingContext="{x:Reference accountImage}" IsRunning="{Binding IsLoading}"/>
+			-->
+			</Frame>
+			
+			<StackLayout Padding="15,10,15,10"  Orientation="Horizontal" >
+				<Label Text="Change account" HorizontalOptions="StartAndExpand">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Tapped="ChangeAccount_Tapped"/>
+					</Label.GestureRecognizers>
+				</Label>
+				<Label Text="Create account" HorizontalOptions="EndAndExpand">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Tapped="CreateAccount_Tapped"/>
+					</Label.GestureRecognizers>
+				</Label>
+			</StackLayout>
+			<Label Text="Change profile picture" HorizontalOptions="StartAndExpand">
+				<Label.GestureRecognizers>
+					<TapGestureRecognizer Tapped="ChangeProfilePicture_Tapped"/>
+				</Label.GestureRecognizers>
+			</Label>
+
+			<Label x:Name="accountName" Text=""/>
+		</StackLayout>
+		
+
+	</ContentPage.Content>
+</ContentPage>
