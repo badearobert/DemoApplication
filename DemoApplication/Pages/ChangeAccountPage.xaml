@@ -7,12 +7,35 @@
              x:Class="DemoApplication.ChangeAccountPage">
 
 
-	<ListView x:Name="AccountListView" ItemTapped="AccountListView_ItemTapped">
+	<ListView x:Name="AccountListView" 
+              ItemTapped="AccountListView_ItemTapped"
+              HasUnevenRows="True"
+              SeparatorVisibility="None"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              >
 		<ListView.ItemTemplate>
 			<DataTemplate>
-				<TextCell Text="{Binding Username}"
-						  Detail="{Binding Id}" />
-			</DataTemplate>
+                <ViewCell>
+                    <StackLayout Margin="6,4,6,4" BackgroundColor="Black">
+                        <Label Text="{Binding Username}" TextColor="Red" HorizontalTextAlignment="Center" FontSize="Large"/>
+                        <Label Text="{Binding Id}" TextColor="AliceBlue" />
+                        <Label Text="{Binding Detail}" TextColor="Cyan" />
+                        
+
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                            <Button Text="EDIT" 
+                                    Clicked="ButtonEdit_Clicked"
+                                    CommandParameter="{Binding Id}"
+                                    />
+                            <Button Text="DELETE" 
+                                    Clicked="ButtonDelete_Clicked"
+                                    CommandParameter="{Binding Id}"
+                                    />
+                        </StackLayout>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
 		</ListView.ItemTemplate>
 	</ListView>
 </ContentPage>

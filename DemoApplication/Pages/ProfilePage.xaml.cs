@@ -13,19 +13,47 @@ namespace DemoApplication.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : ContentPage
     {
-        private Account currentAccount = null;
+        private static Account currentAccount;
         public ProfilePage()
         {
             InitializeComponent();
-            
         }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            var accounts = App.database.GetAccounts();
-            if (accounts.Count != 0)
+            accountImage.IsEnabled = false;
+            AnimateProfilePicture();
+            LoadProfile();
+
+            HandleLabelsVisibility();
+        }
+        private async void AnimateProfilePicture()
+        {
+            this.InnerStack.IsVisible = false;
+            this.OuterStack.Opacity = 0;
+
+            await Animate.FadeIn(this.OuterStack, 1000, Easing.CubicOut);
+            await Animate.BallAnimate(this.OuterStack, 50, 10, 2);
+            this.InnerStack.IsVisible = true;
+        }
+        private void HandleLabelsVisibility()
+        {
+            // cannot change account if no accounts available
+            bool AccountsAvailable = (App.database.GetAccounts().Count > 0);
+            bool AccountNotNull = (currentAccount != null);
+            Label_ChangeAccount.IsVisible = AccountsAvailable;
+            Label_EditAccount.IsVisible = AccountsAvailable && AccountNotNull;
+        }
+        private void LoadProfile()
+        {
+            if (currentAccount != null)
             {
-                LoadProfile(accounts[0].Id);
+                LoadProfile(currentAccount.Id);
+            }
+            else
+            {
+                LoadProfileUnknown();
             }
         }
         private void LoadProfile(int profile_key)
@@ -35,13 +63,24 @@ namespace DemoApplication.Pages
             if (currentAccount != null)
             {
                 accountImage.Source = currentAccount.ProfilePicturePath;
-                accountName.Text = currentAccount.Username;
+                accountName.Text = "Welcome back, " + currentAccount.Username + "!"; ;
+                accountImage.IsEnabled = true;
             }
         }
+        private void LoadProfileUnknown()
+        {
+            accountImage.Source = ImageSource.FromFile(Account.PathDefaultPicture);
+            currentAccount = null;
+            accountImage.IsEnabled = false;
+            accountName.Text = "Hello, stranger. Who are you?";
+        }
+
         private async void ChangeAccount_Tapped(object sender, EventArgs e)
         {
             ChangeAccountPage changeAccountPage = new ChangeAccountPage();
             changeAccountPage.OnAccountChanged += OnAccountChange;
+            changeAccountPage.OnAccountRemoved += OnAccountRemoved;
+
             await Navigation.PushAsync(changeAccountPage);
         }
 
@@ -56,7 +95,7 @@ namespace DemoApplication.Pages
         {
             if (currentAccount == null)
             {
-                // TODO
+                // Should not be null, button should have be hidden in this case
                 return;
             }
             // TODO - temp
@@ -72,12 +111,26 @@ namespace DemoApplication.Pages
             App.database.UpdateAccount(currentAccount);
         }
 
-        private void OnAccountChange(object sender, AccountChangeEventArgs e)
+        private void OnAccountChange(object sender, AccountDataEventArgs e)
         {
             if (currentAccount == null || currentAccount.Id != e.AccountIndex)
             {
                 LoadProfile(e.AccountIndex);
             }
-        }    
+        }
+        private void OnAccountRemoved(object sender, AccountDataEventArgs e)
+        {
+            if (currentAccount != null && currentAccount.Id == e.AccountIndex) 
+            {
+                LoadProfileUnknown();
+            }
+        }
+
+        private async void EditAccount_Tapped(object sender, EventArgs e)
+        {
+            if (currentAccount == null) return;
+            EditAccountPage editAccountPage = new EditAccountPage(currentAccount.Id);
+            await Navigation.PushAsync(editAccountPage);
+        }
     }
 }

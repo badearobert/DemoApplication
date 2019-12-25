@@ -7,9 +7,11 @@
              x:Class="DemoApplication.RegisterPage">
 	<StackLayout Margin="10, 10, 10, 0">
 		<Entry x:Name="accountName" Placeholder="Insert username"/>
-		<Entry x:Name="accountPassword" Placeholder="Insert password"/>
+        <Entry x:Name="accountPassword" Placeholder="Insert password"/>
 
-		<Button Text="Add Account" x:Name="buttonSubmit" Clicked="Button_Clicked"/>
+        <Editor x:Name="accountDetail" Placeholder="Insert detail data" Text="" 
+                VerticalOptions="Fill" Keyboard="Chat"/>
+        <Button Text="Add Account" x:Name="buttonSubmit" Clicked="Button_Clicked"/>
 
 	</StackLayout>
 

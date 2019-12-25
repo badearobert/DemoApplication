@@ -31,13 +31,13 @@ namespace DemoApplication
             return accounts;
         }
 
-        public bool UpdateAccount(Account acc)
+        public bool UpdateAccount(Account account)
         {
             bool result = false;
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(PATH_ACCOUNTS))
             {
                 conn.CreateTable<Account>();
-                result = (1 == conn.Update(acc));
+                result = (1 == conn.Update(account));
             }
             return result;
         }
@@ -51,6 +51,33 @@ namespace DemoApplication
                 return (numberOfRows > 0);
             }
         }
+        public bool Delete(Account account)
+        {
+            using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(PATH_ACCOUNTS))
+            {
+                conn.CreateTable<Account>();
+                var numberOfRows = conn.Delete<Account>(account);
+                return (numberOfRows > 0);
+            }
+        }
+        public bool Delete(int index)
+        {
+            try
+            {
+                var items = GetAccounts();
+                using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(PATH_ACCOUNTS))
+                {
+                    conn.CreateTable<Account>();
+                    var numberOfRows = conn.Delete<Account>(index);
+                    return (numberOfRows > 0);
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public void DeleteAll()
         {
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(PATH_ACCOUNTS))

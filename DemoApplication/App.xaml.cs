@@ -21,7 +21,7 @@ namespace DemoApplication
             InitializeComponent();
             database = new DatabaseAccess();
             database.PATH_ACCOUNTS = dbpath_accounts;
-            App.database.DeleteAll();
+            //App.database.DeleteAll();
 
             MainPage = new NavigationPage(new MainPage());
         }

@@ -13,7 +13,7 @@ namespace DemoApplication
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage : ContentPage
     {
-        public delegate void AccountChangedDelegate(object sender, AccountChangeEventArgs e);
+        public delegate void AccountChangedDelegate(object sender, AccountDataEventArgs e);
         public event AccountChangedDelegate OnAccountChanged;
         public RegisterPage()
         {
@@ -32,12 +32,13 @@ namespace DemoApplication
             Account account = new Account()
             {
                 Username = accountName.Text,
-                Password = accountPassword.Text
+                Password = accountPassword.Text,
+                Detail = accountDetail.Text
             };
             if (App.database.Add(ref account))
             {
                 DisplayAlert("Success", "Account successfully added", "Great!");
-                OnAccountChanged?.Invoke(this, new AccountChangeEventArgs(account.Id));
+                OnAccountChanged?.Invoke(this, new AccountDataEventArgs(account.Id));
 
             }
             else

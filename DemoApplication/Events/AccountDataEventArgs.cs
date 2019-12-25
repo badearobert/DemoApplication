@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DemoApplication.Events
 {
-    public class AccountChangeEventArgs : EventArgs
+    public class AccountDataEventArgs : EventArgs
     {
-        public AccountChangeEventArgs(int index)
+        public AccountDataEventArgs(int index)
         {
             AccountIndex = index;
         }

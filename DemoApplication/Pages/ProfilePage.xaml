@@ -6,44 +6,50 @@
              mc:Ignorable="d"
              x:Class="DemoApplication.Pages.ProfilePage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout x:Name="OuterStack" Padding="0,50,0,0" VerticalOptions="StartAndExpand" IsVisible="True" Opacity="0">
 			<Frame CornerRadius="100" 
 			   HeightRequest="200"
 			   WidthRequest="200"
 			   HorizontalOptions="Center"
 			   Padding="0"
 			   IsClippedToBounds="True">
-				<Image x:Name="accountImage" 
+                <Image x:Name="accountImage" 
 					Aspect="Fill"
 					HeightRequest="300" 
 					HorizontalOptions="Center"
 					VerticalOptions="Center" 
+                     
 					Source="profile_image_default.png"
-				/>
-				<!--<ActivityIndicator BindingContext="{x:Reference accountImage}" IsRunning="{Binding IsLoading}"/>
+				>
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ChangeProfilePicture_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                
+
+                <!--<ActivityIndicator BindingContext="{x:Reference accountImage}" IsRunning="{Binding IsLoading}"/>
 			-->
 			</Frame>
-			
-			<StackLayout Padding="15,10,15,10"  Orientation="Horizontal" >
-				<Label Text="Change account" HorizontalOptions="StartAndExpand">
-					<Label.GestureRecognizers>
-						<TapGestureRecognizer Tapped="ChangeAccount_Tapped"/>
-					</Label.GestureRecognizers>
-				</Label>
-				<Label Text="Create account" HorizontalOptions="EndAndExpand">
-					<Label.GestureRecognizers>
-						<TapGestureRecognizer Tapped="CreateAccount_Tapped"/>
-					</Label.GestureRecognizers>
-				</Label>
-			</StackLayout>
-			<Label Text="Change profile picture" HorizontalOptions="StartAndExpand">
-				<Label.GestureRecognizers>
-					<TapGestureRecognizer Tapped="ChangeProfilePicture_Tapped"/>
-				</Label.GestureRecognizers>
-			</Label>
-
-			<Label x:Name="accountName" Text=""/>
-		</StackLayout>
+            <Label x:Name="accountName" Text="" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label x:Name="Label_EditAccount" Text="Edit account" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="EditAccount_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+            
+            <StackLayout x:Name="InnerStack" Padding="15,10,15,10"  Orientation="Horizontal" IsVisible="False">
+                <Label x:Name="Label_ChangeAccount" Text="Change account" HorizontalOptions="StartAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ChangeAccount_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="Create account" HorizontalOptions="EndAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CreateAccount_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
 		
 
 	</ContentPage.Content>
